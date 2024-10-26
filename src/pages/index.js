@@ -83,7 +83,6 @@ export default function Home() {
           <AssignmentIcon />
         </Avatar>
       </Box> */}
-      {res}
       <div>
         <TextField value={startDate}
           onChange={e => {
