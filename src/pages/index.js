@@ -33,7 +33,7 @@ export default function Home() {
   };
 
   const insertRow = async () => {
-    const payload =  {
+    const payload = {
       type: 'insertSchedule',
       startDate: startDate.format(format),
       endDate: startDate.add(durationFromStartDate, 'days').format(format),
@@ -93,66 +93,69 @@ export default function Home() {
   // 3. 更新欄位檢測 行數跟名稱是否正確才勾選
 
   return (
-    <Box
-      component="form"
-      sx={{ m: 1, '& .MuiTextField-root': { m: 1, width: '30ch' } }}
-      noValidate
-      autoComplete="off"
-      textAlign="center"
-    >
-      <div>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            label="檔期開始"
-            value={startDate}
-            onChange={handleStartDateChange}
-            renderInput={(params) => <TextField disabled={loading} {...params} />}
+    <Box className="root-center-box">
+      <Box
+        component="form"
+        sx={{ m: 1, '& .MuiTextField-root': { m: 1, width: '30ch' } }}
+        noValidate
+        autoComplete="off"
+        textAlign="center"
+      >
+        <div>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="檔期開始"
+              value={startDate}
+              onChange={handleStartDateChange}
+              minDate={dayjs()}
+              renderInput={(params) => <TextField disabled={loading} {...params} />}
+            />
+          </LocalizationProvider>
+          <TextField
+            label="檔期天數"
+            type="number"
+            slotProps={{
+              inputLabel: {
+                shrink: true,
+              },
+            }}
+            value={durationFromStartDate}
+            onChange={e => {
+              setDurationFromStartDate(e.target.value)
+            }}
           />
-        </LocalizationProvider>
-        <TextField
-          label="檔期天數"
-          type="number"
-          slotProps={{
-            inputLabel: {
-              shrink: true,
-            },
-          }}
-          value={durationFromStartDate}
-          onChange={e => {
-            setDurationFromStartDate(e.target.value)
-          }}
-        />
-        <TextField value={KOLName}
-          onChange={e => {
-            setKOLName(e.target.value)
-          }}
-          disabled={loading}
-          label="KOL"
-          sx={{ width: '100%' }}
-        />
-        <TextField value={vendorName}
-          onChange={e => {
-            setVendorName(e.target.value)
-          }}
-          disabled={loading}
-          label="廠商"
-          sx={{ width: '100%' }}
-        />
-      </div>
-      {showSuccess ? <Button sx={{
-        transition: 'all .5s linear'
-      }} size="small">🎉 🎉 🎉</Button> :
-        <LoadingButton
-          size="small"
-          onClick={onSubmit}
-          endIcon={<SendIcon />}
-          loading={loading}
-          loadingPosition="end"
-          variant="contained"
-        >
-          Submit
-        </LoadingButton>}
+          <TextField value={KOLName}
+            onChange={e => {
+              setKOLName(e.target.value)
+            }}
+            disabled={loading}
+            label="KOL"
+            sx={{ width: '100%' }}
+          />
+          <TextField value={vendorName}
+            onChange={e => {
+              setVendorName(e.target.value)
+            }}
+            disabled={loading}
+            label="廠商"
+            sx={{ width: '100%' }}
+          />
+        </div>
+        {showSuccess ? <Button sx={{
+          transition: 'all .5s linear'
+        }} size="large">🎉 🎉 🎉</Button> :
+          <LoadingButton
+            size="large"
+            onClick={onSubmit}
+            endIcon={<SendIcon />}
+            loading={loading}
+            loadingPosition="end"
+            variant="contained"
+            disabled={!KOLName || !vendorName || durationFromStartDate < 1}
+          >
+            Submit
+          </LoadingButton>}
+      </Box>
     </Box>
-
   );
 }
