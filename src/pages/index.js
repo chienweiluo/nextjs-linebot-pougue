@@ -6,36 +6,42 @@ import Avatar from '@mui/material/Avatar';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import axios from 'axios'
 
-axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-axios.defaults.headers.post['Content-Type'] ='application/json;charset=utf-8';
-axios.defaults.withCredentials = true;
+// needed: due to app script CORS
+axios.defaults.headers.post['Content-Type'] = "text/plain";
 
 export default function Home() {
   const [displayName, setDisplayName] = useState("");
   const [startDate, setStartDate] = useState("")
-  const [endDate, seEndDate] = useState("")
+  const [endDate, setEndDate] = useState("")
   const [KOLName, setKOLName] = useState("")
   const [vendorName, setVendorName] = useState("")
-  const [res, setRes] = useState("")
+
   const closeLiff = () => {
     const liff = window.liff;
     liff.closeWindow();
   }
 
   const insertRow = async () => {
-    const respon = await axios.post('https://script.google.com/macros/s/AKfycbxSokQ9woEqX550VBvUt4qS6vW4-1kKJtHPGmFdbCApJ_uX4tR5D3hajKNkN7OSp5Jp/exec', {
+    await axios.post('https://script.google.com/macros/s/AKfycbxSokQ9woEqX550VBvUt4qS6vW4-1kKJtHPGmFdbCApJ_uX4tR5D3hajKNkN7OSp5Jp/exec', {
+      type: 'insertSchedule',
       startDate,
       endDate,
       KOLName,
       vendorName
     });
-    respon && setRes(JSON.stringify(respon))
   }
 
   const onSubmit = async () => {
-    await insertRow()
-    closeLiff()
+    try {
+      // TODO: success notification
+      await insertRow()
+      closeLiff()
+    } catch (e) {
+      // TODO: fail
+      console.log(e)
+    }
   }
+
   useEffect(() => {
     // 初始化 LIFF 應用
     liff.init({ liffId: '2006500949-YMqZ2gbp' })
@@ -63,7 +69,7 @@ export default function Home() {
   }, []);
   // 先寫api, 接到數據後, 往excel 插入資料
   // 然後這裡call 那個endpoint
-  // 
+  // 1. 我要開團 2. webhook收到後發一個line 消息 3.點擊liff連結 4. 輸入表單 5. 送出, 關閉liff
   return (
     <Box
       component="form"
