@@ -16,7 +16,6 @@ axios.defaults.headers.post['Content-Type'] = "text/plain";
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 export default function Home() {
-  const [displayName, setDisplayName] = useState("");
   const [startDate, setStartDate] = useState(dayjs)
   const [durationFromStartDate, setDurationFromStartDate] = useState(7)
   const [KOLName, setKOLName] = useState("")
@@ -94,6 +93,9 @@ export default function Home() {
 
   return (
     <Box className="root-center-box">
+      <Box>
+        <img className="logo" src="/logo.webp" alt="logo" />
+      </Box>
       <Box
         component="form"
         sx={{ m: 1, '& .MuiTextField-root': { m: 1, width: '30ch' } }}

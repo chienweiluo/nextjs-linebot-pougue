@@ -19,9 +19,16 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 /* reset css */
 input[type="text"] {
     border: none;
 }
 
+.logo {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    border-radius: 50%;
+}
