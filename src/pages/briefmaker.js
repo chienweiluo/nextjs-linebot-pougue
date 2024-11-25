@@ -64,7 +64,7 @@ export default function BriefMakerPage() {
         loading={loading}
         loadingPosition="end"
         variant="contained"
-        disabled={!KOLName || !brandName || !productName}
+        disabled={!!brief || !KOLName || !brandName || !productName}
       >
         生成Brief
       </LoadingButton>
