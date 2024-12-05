@@ -122,8 +122,11 @@ export default function SettlementPage() {
     const lowerCaseTerm = term.toLowerCase()
     return KOLName.toLowerCase().includes(lowerCaseTerm) || vendorName.toLowerCase().includes(lowerCaseTerm)
   })
-  const chunkedScheduleList = chunk(filteredScheduleList, Math.floor(filteredScheduleList.length / 2))
-  
+  console.log(filteredScheduleList, 'filteredScheduleList')
+  const chunkedScheduleList = filteredScheduleList.length === 1 
+  ? [filteredScheduleList] 
+  : chunk(filteredScheduleList, Math.floor(filteredScheduleList.length / 2))
+  console.log(chunkedScheduleList, 'chunkedScheduleList')
   return (
   <Box className="root-center-box">
     <Box sx={{ width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center' }}>
