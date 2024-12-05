@@ -59,7 +59,7 @@ export default function SettlementPage() {
     setSettlementInfo({rowNumber, KOLName, vendorName, startDate})
     setOpen(true);
   };
-
+  const [settlementLoading, setSettlementLoading] = React.useState(false)
   const handleClose = () => {
     setOpen(false);
   };
@@ -143,7 +143,7 @@ export default function SettlementPage() {
           </Select>
         </Box>
         </Box>
-        <Box sx={{ height: 'calc(100% - 200px)', overflow: 'auto', gap: 1, display: 'flex', m: 1 }}>
+        <Box sx={{ height: 'calc(100% - 200px)', overflow: 'auto', gap: 1, display: 'flex',justifyContent: 'center', m: 1 }}>
             {loading ? <CircularProgress /> : chunkedScheduleList.map((chunked) => {
               return <Box>
                 {chunked.map(({rowNumber, KOLName, vendorName, startDate, endDate}) =>
@@ -171,8 +171,10 @@ export default function SettlementPage() {
             const formJson = Object.fromEntries(formData.entries());
             const settlementNum = formJson.settlementNum;
             console.log(settlementNum);
+            setSettlementLoading(true)
             const {rowNumber, KOLName, vendorName, startDate} = settlementInfo
             await setSettlementToScheduleRow({rowNumber, KOLName, vendorName, startDate, settlementNum})
+            setSettlementLoading(false)
             handleClose();
           },
         }}
@@ -201,7 +203,7 @@ export default function SettlementPage() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Settle</Button>
+          <Button type="submit" disabled={settlementLoading}>{settlementLoading ? 'Loading...' : 'Settle'}</Button>
         </DialogActions>
       </Dialog>
 </Box>
