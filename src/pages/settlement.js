@@ -60,9 +60,11 @@ export default function SettlementPage() {
     setOpen(true);
   };
   const [settlementLoading, setSettlementLoading] = React.useState(false)
+
   const handleClose = () => {
     setOpen(false);
   };
+
   const closeLiff = () => {
     const liff = window.liff;
     liff.closeWindow();
@@ -125,7 +127,7 @@ export default function SettlementPage() {
   console.log(filteredScheduleList, 'filteredScheduleList')
   const chunkedScheduleList = filteredScheduleList.length === 1 
   ? [filteredScheduleList] 
-  : chunk(filteredScheduleList, Math.floor(filteredScheduleList.length / 2))
+  : chunk(filteredScheduleList, Math.ceil(filteredScheduleList.length / 2))
   console.log(chunkedScheduleList, 'chunkedScheduleList')
   return (
   <Box className="root-center-box">
